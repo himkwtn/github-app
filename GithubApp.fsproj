@@ -20,11 +20,6 @@
         
         
         <Compile Include="Program.fs" />
-
-        
-        
-        
-        <Content Include=".gitignore" />
     </ItemGroup>
 
     <ItemGroup>
