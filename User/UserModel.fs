@@ -1,6 +1,6 @@
 namespace User
 
-module User =
+module Model =
     type User = {
         login : string
         avatar_url : string option

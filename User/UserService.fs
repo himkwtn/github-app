@@ -5,7 +5,7 @@ module Service =
         open System
         open Hopac
         open Hopac.Infixes
-        open User
+        open Model
         open Utils
 
         let fetchUser (user : string) : Job<UserResponse> =
