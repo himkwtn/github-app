@@ -6,17 +6,17 @@ module Service =
     open System
     open Model
     open Config
-        
-    let fetchRepo (user:string) =
+
+    let fetchRepo (user : string) =
         let url = String.Format("{0}/users/{1}/repos?sort=created&direction=desc&type=sources", BASE_URL, user)
-        let parseRepo (repo: Repo) =
+        let parseRepo (repo : Repo) =
             {
                 RepoResponse.name = repo.name
                 url = repo.html_url
-                description =  repo.description
+                description = repo.description
                 language = repo.language
                 publishedDate = repo.created_at
             }
-            
+
         fetchJson<Repo list> user url
-        |> Job.map(List.map parseRepo)
+        |> Job.map (List.map parseRepo)

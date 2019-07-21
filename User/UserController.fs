@@ -9,7 +9,7 @@ module Controller =
     open Service
     open Utils
 
-    let user = fetchUser  >> run >> toJson >> OK
+    let user = fetchUser >> run >> toJson >> OK
     let search = searchUser >> run >> toJson >> OK
     let routes = choose [
         GET >=> setCORSHeaders >=> pathScan "/user/%s" user

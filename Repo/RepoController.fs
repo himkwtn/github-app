@@ -9,8 +9,8 @@ module Controller =
     open Service
     open Utils
 
-    let listRepo = fetchRepo >> run >> toJson >> OK 
+    let listRepo = fetchRepo >> run >> toJson >> OK
     let routes = choose [
-        GET  >=> setCORSHeaders >=> pathScan "/repo/%s" listRepo
+        GET >=> setCORSHeaders >=> pathScan "/repo/%s" listRepo
 
     ]
