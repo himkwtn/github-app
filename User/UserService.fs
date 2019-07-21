@@ -11,26 +11,25 @@ module Service =
         let fetchUser(user: string): Job<UserResponse> =
         
             let fetchUserInfo() =
-                String.Format("{1}/{0}", user, BASE_URL)
-                |> fetchJson<User> user
+                let url = String.Format("{0}/users/{1}", BASE_URL, user)
+                fetchJson<User> user url 
                 
             let fetchOrganization (orgs: UserOrganization list) =
-                let parseOrgs org = {
+                let parseOrgs (org: Organization) = {
                     avatar=org.avatar_url
                     url=org.html_url
                 }
                 orgs
-                |> List.map( fun {url=url} -> fetchJson<Organization> user url)
+                |> List.map( fun {url=url} -> fetchJson<Organization> user url )
                 |> Job.conCollect
                 |> Job.map List.ofSeq
-                |> Job.map(List.map parseOrgs)
-    
+                |> Job.map( List.map parseOrgs)
             let fetchUserOrganization() =
-                let url = String.Format("{1}/{0}/orgs", user, BASE_URL)
-                fetchJson<UserOrganization list> user url
+                let url = String.Format("{0}/users/{1}/orgs", BASE_URL, user)
+                fetchJson<UserOrganization list> user url 
                 |> Job.bind fetchOrganization
              
-            let parseResponse (user,orgs) =
+            let parseResponse (user: User, orgs) =
                  {
                      username = user.login
                      name = user.name
@@ -43,3 +42,18 @@ module Service =
             fetchUserInfo() <*> fetchUserOrganization()
             |> Job.map parseResponse
 
+    
+        let searchUser(user:string) =
+            
+            let url = String.Format("{0}/search/users?q={1}+in:email+in:login+in:name", BASE_URL, user)
+            
+            let parseResponse ({items = users}: SearchResult): SearchResponse list =
+                List.map
+                    (fun (user: SearchUser) ->
+                    {
+                        username = user.login
+                        avatar = user.avatar_url
+                    }) users
+            fetchJson<SearchResult> user url
+            |> Job.map parseResponse
+            

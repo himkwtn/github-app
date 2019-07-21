@@ -28,10 +28,11 @@ let trace a =
     printf "%s" a
     a
     
-let fetchJson<'a> user url=
+let fetchJson<'a> user url  =
     let token = Environment.GetEnvironmentVariable("TOKEN")
     Request.createUrl Get url
     |> Request.setHeader(UserAgent user)
     |> Request.setHeader(Custom ("Authorization", String.Format("token {0}",token)))
     |> Request.responseAsString
+//    |> Job.map trace
     |> Job.map fromJson<'a>

@@ -31,3 +31,17 @@ module User =
         bio: string option
         orgs: OrganizationResponse list
     }
+    
+    type SearchUser = {
+        login: string
+        avatar_url: string
+    }
+    
+    type SearchResult = {
+        items: SearchUser list
+    }
+    
+    type SearchResponse = {
+        username: string
+        avatar: string
+    }

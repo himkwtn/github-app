@@ -8,7 +8,7 @@ module Service =
     open Config
         
     let fetchRepo (user:string) =
-        let url = String.Format("{1}/{0}/repos?sort=created&direction=desc&type=sources", user, BASE_URL)
+        let url = String.Format("{0}/users/{1}/repos?sort=created&direction=desc&type=sources", BASE_URL, user)
         let parseRepo (repo: Repo) =
             {
                 RepoResponse.name = repo.name

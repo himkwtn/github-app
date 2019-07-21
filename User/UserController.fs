@@ -10,6 +10,8 @@ module Controller =
     open Utils
 
     let user = fetchUser  >> run >> toJson >> OK
+    let search = searchUser >> run >> toJson >> OK
     let routes = choose [
-        GET  >=> setCORSHeaders >=> pathScan "/user/%s" user
+        GET >=> setCORSHeaders >=> pathScan "/user/%s" user
+        GET >=> setCORSHeaders >=> pathScan "/search/%s" search
     ]
