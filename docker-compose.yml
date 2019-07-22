@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  backend:
+    container_name: github_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8083:8083
